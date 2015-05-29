@@ -3,7 +3,8 @@
 /// <reference path="../typings/through/through.d.ts" />
 var builder = require('./builder');
 var through = require('through');
-function create(config) {
+function create(config, onError) {
+    if (onError === void 0) { onError = function (err) { return console.log(err); }; }
     var _builder = builder.createTypeScriptBuilder(config);
     function createStream() {
         return through(function (file) {
@@ -16,7 +17,7 @@ function create(config) {
         }, function () {
             var _this = this;
             // start the compilation process
-            _builder.build(function (file) { return _this.queue(file); }, function (err) { return console.log(err); });
+            _builder.build(function (file) { return _this.queue(file); }, onError);
             this.queue(null);
         });
     }
