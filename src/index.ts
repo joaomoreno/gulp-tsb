@@ -1,17 +1,19 @@
 /// <reference path="../typings/node/node.d.ts" />
 /// <reference path="../typings/vinyl/vinyl.d.ts" />
 /// <reference path="../typings/through/through.d.ts" />
+/// <reference path="../typings/clone/clone.d.ts" />
 
 import stream = require('stream');
 import builder = require('./builder');
 import vinyl = require('vinyl');
 import through = require('through');
+import clone = require('clone');
 
 export type ErrorCallback = (err: string) => void;
 
 export function create(config:builder.IConfiguration, onError: ErrorCallback = err => console.log(err)):()=>stream.Stream {
 
-    var _builder = builder.createTypeScriptBuilder(config);
+    var _builder = builder.createTypeScriptBuilder(clone(config));
     
     function createStream():stream.Stream {
 

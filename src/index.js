@@ -1,11 +1,13 @@
 /// <reference path="../typings/node/node.d.ts" />
 /// <reference path="../typings/vinyl/vinyl.d.ts" />
 /// <reference path="../typings/through/through.d.ts" />
+/// <reference path="../typings/clone/clone.d.ts" />
 var builder = require('./builder');
 var through = require('through');
+var clone = require('clone');
 function create(config, onError) {
     if (onError === void 0) { onError = function (err) { return console.log(err); }; }
-    var _builder = builder.createTypeScriptBuilder(config);
+    var _builder = builder.createTypeScriptBuilder(clone(config));
     function createStream() {
         return through(function (file) {
             // give the file to the compiler
